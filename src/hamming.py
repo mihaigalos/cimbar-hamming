@@ -51,7 +51,14 @@ class Hamming:
             i = i+1
             if pixel1 == '\n' or pixel1 == '\r':
                 continue
-            pixel2 = tile2[i]
+            try:
+                pixel2 = tile2[i]
+            except:
+                print("Exception:")
+                print(f"{tile1}")
+                print("------")
+                print(f"{tile2}")
+                raise
             if pixel2 == '\n' or pixel2 == '\r':
                 continue
             if pixel1 != pixel2:

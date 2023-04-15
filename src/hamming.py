@@ -43,9 +43,9 @@ class Hamming:
     def print(self):
         self.to_json()
         print(
-            f"Min: {self.min_hamming_distance}, log2(x) = {math.log2(self.min_hamming_distance)} bits")
+            f"min: {self.min_hamming_distance}, log2(min) = {math.log2(self.min_hamming_distance)} bits")
         print(
-            f"Max: {self.max_hamming_distance}, log2(x) = {math.log2(self.max_hamming_distance)} bits")
+            f"max: {self.max_hamming_distance}, log2(max) = {math.log2(self.max_hamming_distance)} bits")
 
     def _diff_tile(self, tile1, tile2) -> int:
         hamming_distance = 0

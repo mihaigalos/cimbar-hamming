@@ -42,19 +42,19 @@ class Hamming:
 
     def print(self):
         self.to_json()
-        print(
-            f"min: {self.min_hamming_distance}, log2(min) = {math.log2(self.min_hamming_distance)} bits")
-        print(
-            f"max: {self.max_hamming_distance}, log2(max) = {math.log2(self.max_hamming_distance)} bits")
+        print(f"Min Hamming distance: {self.min_hamming_distance}")
+        print(f"Max Hamming distance: {self.max_hamming_distance}")
 
     def _diff_tile(self, tile1, tile2) -> int:
         hamming_distance = 0
+        i = -1
         for pixel1 in tile1:
+            i = i+1
             if pixel1 == '\n' or pixel1 == '\r':
                 continue
-            for pixel2 in tile2:
-                if pixel2 == '\n' or pixel2 == '\r':
-                    continue
-                if pixel1 != pixel2:
-                    hamming_distance += 1
+            pixel2 = tile2[i]
+            if pixel2 == '\n' or pixel2 == '\r':
+                continue
+            if pixel1 != pixel2:
+                hamming_distance += 1
         return hamming_distance

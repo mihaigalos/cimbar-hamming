@@ -19,13 +19,16 @@ class Generator:
 
     def run(self):
         all_tiles = self.initial_tiles
+        iteration = 0
 
-        while len(all_tiles) < self.desired_tile_count and self._can_continue_creating_potential_tiles():
+        while len(all_tiles) < self.desired_tile_count and self._can_continue_creating_potential_tiles(iteration):
             print(
-                f"----------------- Searching for tile {len(all_tiles+1)} -----------------")
+                f"----------------- Searching for tile {len(all_tiles) + 1} -----------------")
             newtile = self._generate_tile(all_tiles)
             if newtile is not None:
+                print(newtile)
                 all_tiles.append(newtile)
+            iteration += 1
 
     def _generate_tile(self, all_tiles):
         written_pixels = 0
@@ -48,8 +51,15 @@ class Generator:
     def _create_potential_tile(self, new_pixel_x, new_pixel_y, old_tile):
         rows = old_tile.split("\n")
         if self._validate_pixel(rows, new_pixel_x, new_pixel_y):
-            rows[new_pixel_y][new_pixel_x] = "🔵"
-            return rows.join("\n")
+            #rows[new_pixel_y][new_pixel_x] = "🔵"
+            row = rows[new_pixel_y]
+            new_row = row[0:new_pixel_x] + "🔵" + row[new_pixel_x:len(row)]
+            if new_pixel_y < self.tile_size-1:
+                new_row += "\n"
+            new_rows = rows[0:new_pixel_y] + \
+                [new_row] + rows[new_pixel_y:len(rows)]
+
+            return new_rows
         return None
 
     """

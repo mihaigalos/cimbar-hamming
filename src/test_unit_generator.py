@@ -113,6 +113,29 @@ class TestGenerator(unittest.TestCase):
 
         self.assertFalse(can_insert)
 
+    def test_create_potential_tile_works_whenRight(self):
+        tile = """⭕⭕⭕⭕⭕⭕⭕⭕
+🔵🔵🔵⭕⭕⭕⭕⭕
+🔵🔵⭕⭕⭕⭕⭕⭕
+🔵🔵🔵⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕"""
+        expected = """⭕⭕⭕⭕⭕⭕⭕⭕
+🔵🔵🔵⭕⭕⭕⭕⭕
+🔵🔵🔵⭕⭕⭕⭕⭕
+🔵🔵🔵⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕"""
+        generator = Generator()
+
+        actual = generator._create_potential_tile(2, 2, tile)
+
+        self.assertTrue(actual, expected)
+
 
 if __name__ == "__main__":
     unittest.main()

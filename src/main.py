@@ -1,3 +1,5 @@
+from default_tiles import *
+
 
 class Generator:
 
@@ -18,4 +20,5 @@ class Generator:
 
 
 gen = Generator()
-gen.run()
+
+print(DEFAULT_TILES[9])

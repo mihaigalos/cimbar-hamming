@@ -4,21 +4,20 @@ from default_tiles import *
 class Generator:
 
     def __init__(self):
-        self.pixel_set = "🔵"
-        self.pixel_unset = "⭕"
         self.tile_size = 7  # NxN pixels per tile
+        self.tiles = self._remove_tile_first_newline(DEFAULT_TILES)
+
+    def _remove_tile_first_newline(self, tiles):
+        result = []
+        for tile in tiles:
+            tile = tile[1:]
+            result.append(tile)
+        return result
 
     def run(self):
-        print(self.pixel_set, end="")
-        print(self.pixel_set, end="")
-        print(self.pixel_set, end="")
-        print(self.pixel_set, end="")
-        print(self.pixel_unset, end="")
-        print(self.pixel_unset, end="")
-        print(self.pixel_unset, end="")
-        print(self.pixel_unset, end="")
+        pass
 
 
 gen = Generator()
 
-print(DEFAULT_TILES[9])
+print(gen.tiles[9])

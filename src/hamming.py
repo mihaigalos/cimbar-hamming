@@ -4,8 +4,7 @@ import math
 
 class Hamming:
 
-    def __init__(self, tile_size, default_tiles):
-        self.tile_size = tile_size  # NxN pixels per tile
+    def __init__(self, default_tiles):
         self.tiles = self._remove_tile_first_newline(default_tiles)
         self.min_hamming_distance = 1000000000
         self.max_hamming_distance = 0

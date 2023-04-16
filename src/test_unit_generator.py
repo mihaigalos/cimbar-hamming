@@ -15,16 +15,16 @@ class TestGenerator(unittest.TestCase):
 ⭕⭕⭕⭕⭕⭕⭕⭕"""
 
         generator = Generator()
-        actual = generator._new_empty_tile()
+        actual = generator._Generator__new_empty_tile()
 
         self.assertTrue(expected == actual)
 
     def test_validate_pixel_works_whenEmpty(self):
         generator = Generator()
-        tile = generator._new_empty_tile()
+        tile = generator._Generator__new_empty_tile()
         rows = tile.split("\n")
 
-        can_insert = generator._validate_pixel(rows, 2, 2)
+        can_insert = generator._Generator__validate_pixel(rows, 2, 2)
 
         self.assertTrue(can_insert)
 
@@ -41,7 +41,7 @@ class TestGenerator(unittest.TestCase):
         generator = Generator()
         rows = tile.split("\n")
 
-        can_insert = generator._validate_pixel(rows, 2, 2)
+        can_insert = generator._Generator__validate_pixel(rows, 2, 2)
 
         self.assertTrue(can_insert)
 
@@ -58,7 +58,7 @@ class TestGenerator(unittest.TestCase):
         generator = Generator()
         rows = tile.split("\n")
 
-        can_insert = generator._validate_pixel(rows, 2, 2)
+        can_insert = generator._Generator__validate_pixel(rows, 2, 2)
 
         self.assertTrue(can_insert)
 
@@ -75,7 +75,7 @@ class TestGenerator(unittest.TestCase):
         generator = Generator()
         rows = tile.split("\n")
 
-        can_insert = generator._validate_pixel(rows, 2, 2)
+        can_insert = generator._Generator__validate_pixel(rows, 2, 2)
 
         self.assertTrue(can_insert)
 
@@ -92,7 +92,7 @@ class TestGenerator(unittest.TestCase):
         generator = Generator()
         rows = tile.split("\n")
 
-        can_insert = generator._validate_pixel(rows, 2, 2)
+        can_insert = generator._Generator__validate_pixel(rows, 2, 2)
 
         self.assertTrue(can_insert)
 
@@ -109,7 +109,7 @@ class TestGenerator(unittest.TestCase):
         generator = Generator()
         rows = tile.split("\n")
 
-        can_insert = generator._validate_pixel(rows, 2, 2)
+        can_insert = generator._Generator__validate_pixel(rows, 2, 2)
 
         self.assertFalse(can_insert)
 
@@ -132,7 +132,7 @@ class TestGenerator(unittest.TestCase):
 ⭕⭕⭕⭕⭕⭕⭕⭕"""
         generator = Generator()
 
-        actual = generator._create_potential_tile(2, 2, tile)
+        actual = generator._Generator__create_potential_tile(2, 2, tile)
 
         self.assertTrue(actual, expected)
 

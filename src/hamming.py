@@ -7,7 +7,7 @@ from default_tiles import DEFAULT_TILES
 class Hamming:
 
     def __init__(self, default_tiles=DEFAULT_TILES):
-        if default_tiles[0][0] == "\n":
+        if len(default_tiles) > 0 and default_tiles[0][0] == "\n":
             self.tiles = self._remove_tile_first_newline(default_tiles)
         else:
             self.tiles = default_tiles

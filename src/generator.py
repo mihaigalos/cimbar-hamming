@@ -56,7 +56,9 @@ class Generator:
             if potential_tile is not None:
                 tile = potential_tile
                 if written_pixels >= self.threshold_min_written_pixels:
-                    hamming = Hamming(all_tiles)
+                    new_tiles = all_tiles.copy()
+                    new_tiles.append(potential_tile)
+                    hamming = Hamming(new_tiles)
                     hamming.compute_distances()
                     if hamming.min_hamming_distance >= self.threshold_for_hamming:
                         return tile

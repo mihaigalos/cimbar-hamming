@@ -44,7 +44,7 @@ class Generator:
         return all_tiles
 
     def __generation_loop(self, all_tiles):
-        written_pixels = 0
+        written_pixels = 1
         tile = self.__new_empty_tile()
         iteration = 0
         while self.__can_continue_generating_pixels(written_pixels, iteration):

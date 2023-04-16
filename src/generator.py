@@ -12,8 +12,8 @@ class Generator:
         self.initial_tiles = initial_tiles
         self.threshold_for_hamming = 16
         self.threshold_max_epochs = 1000
-        self.threshold_max_generations = 10000
-        self.threshold_max_iterations_pixel_generation = 1000
+        self.threshold_max_generations_per_epoch = 10000
+        self.threshold_max_add_pixel_iterations_per_generation = 10000
         self.threshold_min_written_pixels = 8
         self.tile_index = len(initial_tiles) + 1
         self.tile_size = tile_size
@@ -114,10 +114,10 @@ class Generator:
         return result
 
     def __can_continue_generating_pixels(self, written_pixels, iteration):
-        return written_pixels < int(self.tile_size*self.tile_size * 3.0 / 4.0) and iteration < self.threshold_max_iterations_pixel_generation
+        return written_pixels < int(self.tile_size*self.tile_size * 3.0 / 4.0) and iteration < self.threshold_max_add_pixel_iterations_per_generation
 
     def __can_continue_generation(self, len_all_tiles, iteration):
-        return len_all_tiles < self.desired_tile_count and iteration < self.threshold_max_generations
+        return len_all_tiles < self.desired_tile_count and iteration < self.threshold_max_generations_per_epoch
 
     def __can_continue_epochs(self, new_tiles, epoch):
         return new_tiles is None or (len(new_tiles) < self.desired_tile_count and epoch < self.threshold_max_epochs)

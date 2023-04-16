@@ -136,6 +136,42 @@ class TestGenerator(unittest.TestCase):
 
         self.assertTrue(actual, expected)
 
+    def test_validate_pixel_not_true_whenHoleInBits(self):
+        tile = """⭕⭕⭕⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕
+⭕🔵🔵🔵⭕⭕⭕⭕
+⭕🔵⭕🔵⭕⭕⭕⭕
+⭕🔵🔵🔵⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕"""
+
+        generator = Generator()
+        rows = tile.split("\n")
+
+        can_insert = generator._Generator__validate_tile(
+            rows, 2, 3)
+
+        self.assertFalse(can_insert)
+
+    def test_validate_pixel_not_true_whenHoleInBits_vertical(self):
+        tile = """⭕⭕⭕⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕
+⭕⭕🔵⭕⭕⭕⭕⭕
+⭕🔵⭕🔵⭕⭕⭕⭕
+⭕⭕🔵⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕
+⭕⭕⭕⭕⭕⭕⭕⭕"""
+
+        generator = Generator()
+        rows = tile.split("\n")
+
+        can_insert = generator._Generator__validate_tile(
+            rows, 2, 3)
+
+        self.assertFalse(can_insert)
+
     @unittest.skip
     def test_debug(self):
         g = Generator(initial_tiles=[])

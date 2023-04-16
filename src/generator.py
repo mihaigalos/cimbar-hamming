@@ -68,7 +68,7 @@ class Generator:
         return None
 
     def __create_potential_tile(self, new_pixel_x, new_pixel_y, old_tile):
-        rows = old_tile.split("\n")
+        rows = old_tile.strip().split("\n")
         if self.__validate_pixel(rows, new_pixel_x, new_pixel_y):
             row = rows[new_pixel_y]
             new_row = row[0:new_pixel_x] + "🔵"
@@ -79,8 +79,10 @@ class Generator:
             if new_pixel_y + 1 < self.tile_size:
                 new_rows += rows[new_pixel_y+1:len(rows)]
 
-            result = "\n".join(new_rows).strip()+"\n"
-            return result
+            if self.__validate_tile(rows.copy(), new_pixel_x, new_pixel_y):
+                result = "\n".join(new_rows).strip()+"\n"
+                return result
+
         return None
 
     """
@@ -100,6 +102,23 @@ class Generator:
         ):
             return True
         return False
+
+    def __validate_tile(self, rows, new_pixel_x, new_pixel_y):
+
+        j = 1
+        for row in rows[1:-1]:
+            i = 1
+            for _ in row[1:-1]:
+                if rows[j][i] == "⭕" and (
+                        rows[j+1][i] == "🔵" and
+                        rows[j-1][i] == "🔵" and
+                        rows[j][i+1] == "🔵" and
+                        rows[j][i-1] == "🔵"
+                ):
+                    return False
+                i += 1
+            j += 1
+        return True
 
     def __is_empty_tile(self, rows):
         for row in rows:

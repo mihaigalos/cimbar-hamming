@@ -79,7 +79,7 @@ class Generator:
             if new_pixel_y + 1 < self.tile_size:
                 new_rows += rows[new_pixel_y+1:len(rows)]
 
-            if self.__validate_tile(rows.copy(), new_pixel_x, new_pixel_y):
+            if self.__validate_pixel_not_hole(rows.copy(), new_pixel_x, new_pixel_y):
                 result = "\n".join(new_rows).strip()+"\n"
                 return result
 
@@ -103,7 +103,7 @@ class Generator:
             return True
         return False
 
-    def __validate_tile(self, rows, new_pixel_x, new_pixel_y):
+    def __validate_pixel_not_hole(self, rows, new_pixel_x, new_pixel_y):
 
         j = 1
         for row in rows[1:-1]:

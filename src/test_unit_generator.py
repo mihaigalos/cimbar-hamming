@@ -149,7 +149,7 @@ class TestGenerator(unittest.TestCase):
         generator = Generator()
         rows = tile.split("\n")
 
-        can_insert = generator._Generator__validate_tile(
+        can_insert = generator._Generator__validate_pixel_not_hole(
             rows, 2, 3)
 
         self.assertFalse(can_insert)
@@ -167,7 +167,7 @@ class TestGenerator(unittest.TestCase):
         generator = Generator()
         rows = tile.split("\n")
 
-        can_insert = generator._Generator__validate_tile(
+        can_insert = generator._Generator__validate_pixel_not_hole(
             rows, 2, 3)
 
         self.assertFalse(can_insert)

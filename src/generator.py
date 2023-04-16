@@ -10,7 +10,7 @@ class Generator:
     def __init__(self, tile_size=8, initial_tiles=DEFAULT_TILES, desired_tile_count=64):
         self.desired_tile_count = desired_tile_count
         self.initial_tiles = initial_tiles
-        self.threshold_for_hamming = 16
+        self.threshold_for_hamming = 10
         self.threshold_max_epochs = 1000
         self.threshold_max_generations = 100
         self.threshold_max_iterations_pixel_generation = 1000
@@ -23,14 +23,15 @@ class Generator:
         epoch = 0
         condition = True
         while condition:
-            all_tiles = self.initial_tiles
+            initial_tiles = self.initial_tiles.copy()
             print(
                 f"+++++++++++++++++ Epoch {epoch} +++++++++++++++++")
-            self.__epoch_loop(all_tiles)
-            condition = self.__can_continue_epochs(len(all_tiles), epoch)
+            new_tiles = self.__epoch_loop(initial_tiles)
+            condition = self.__can_continue_epochs(new_tiles, epoch)
             epoch += 1
 
-    def __epoch_loop(self, all_tiles):
+    def __epoch_loop(self, initial_tiles):
+        all_tiles = initial_tiles.copy()
         iteration = 0
         while self.__can_continue_generation(len(all_tiles), iteration):
             newtile = self.__generation_loop(all_tiles)
@@ -40,6 +41,7 @@ class Generator:
                 print(f"{newtile}")
                 all_tiles.append(newtile)
             iteration += 1
+        return all_tiles
 
     def __generation_loop(self, all_tiles):
         written_pixels = 0
@@ -117,5 +119,5 @@ class Generator:
     def __can_continue_generation(self, len_all_tiles, iteration):
         return len_all_tiles < self.desired_tile_count and iteration < self.threshold_max_generations
 
-    def __can_continue_epochs(self, len_all_tiles, epoch):
-        return len_all_tiles < self.desired_tile_count and epoch < self.threshold_max_epochs
+    def __can_continue_epochs(self, new_tiles, epoch):
+        return new_tiles is None or (len(new_tiles) < self.desired_tile_count and epoch < self.threshold_max_epochs)

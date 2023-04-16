@@ -12,7 +12,7 @@ class Generator:
         self.initial_tiles = initial_tiles
         self.threshold_for_hamming = 16
         self.threshold_max_epochs = 1000
-        self.threshold_max_generations = 100
+        self.threshold_max_generations = 10000
         self.threshold_max_iterations_pixel_generation = 1000
         self.threshold_min_written_pixels = 8
         self.tile_index = len(initial_tiles) + 1

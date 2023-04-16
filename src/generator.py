@@ -23,12 +23,10 @@ class Generator:
         iteration = 0
 
         while len(all_tiles) < self.desired_tile_count and self._can_continue_creating_potential_tiles(iteration):
-            if iteration % 100 == 0:
-                print(
-                    f"----------------- Searching for tile {len(all_tiles) + 1} -----------------")
             newtile = self._generate_tile(all_tiles)
             if newtile is not None:
-                print("Appending new tile:")
+                print(
+                    f"----------------- Searching for tile {len(all_tiles) + 1} -----------------")
                 print(f"{newtile}")
                 all_tiles.append(newtile)
             iteration += 1

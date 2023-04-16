@@ -7,7 +7,10 @@ from default_tiles import DEFAULT_TILES
 class Hamming:
 
     def __init__(self, default_tiles=DEFAULT_TILES):
-        self.tiles = self._remove_tile_first_newline(default_tiles)
+        if default_tiles[0][0] == "\n":
+            self.tiles = self._remove_tile_first_newline(default_tiles)
+        else:
+            self.tiles = default_tiles
         self.min_hamming_distance = 1000000000
         self.max_hamming_distance = 0
 

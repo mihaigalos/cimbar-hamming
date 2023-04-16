@@ -19,11 +19,13 @@ class Generator:
         self.writer = Writer("results")
 
     def run(self):
+        self.epoch_loop()
+
+    def epoch_loop(self):
         all_tiles = self.initial_tiles
         iteration = 0
-
         while len(all_tiles) < self.desired_tile_count and self._can_continue_creating_potential_tiles(iteration):
-            newtile = self._generate_tile(all_tiles)
+            newtile = self._generation_loop(all_tiles)
             if newtile is not None:
                 print(
                     f"----------------- Searching for tile {len(all_tiles) + 1} -----------------")
@@ -31,7 +33,7 @@ class Generator:
                 all_tiles.append(newtile)
             iteration += 1
 
-    def _generate_tile(self, all_tiles):
+    def _generation_loop(self, all_tiles):
         written_pixels = 0
         tile = self._new_empty_tile()
         iteration = 0

@@ -23,8 +23,9 @@ class Generator:
         iteration = 0
 
         while len(all_tiles) < self.desired_tile_count and self._can_continue_creating_potential_tiles(iteration):
-            print(
-                f"----------------- Searching for tile {len(all_tiles) + 1} -----------------")
+            if iteration % 100 == 0:
+                print(
+                    f"----------------- Searching for tile {len(all_tiles) + 1} -----------------")
             newtile = self._generate_tile(all_tiles)
             if newtile is not None:
                 print("Appending new tile:")
@@ -44,8 +45,6 @@ class Generator:
                 new_pixel_x, new_pixel_y, tile)
             if potential_tile is not None:
                 tile = potential_tile
-                print("-----------------------")
-                print(f"{tile}")
                 if written_pixels >= self.threshold_min_written_pixels:
                     hamming = Hamming(all_tiles)
                     hamming.compute_distances()
@@ -68,7 +67,8 @@ class Generator:
             if new_pixel_y + 1 < self.tile_size:
                 new_rows += rows[new_pixel_y+1:len(rows)]
 
-            return "\n".join(new_rows)
+            result = "\n".join(new_rows).strip()+"\n"
+            return result
         return None
 
     """

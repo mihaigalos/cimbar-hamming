@@ -10,7 +10,7 @@ class Generator:
     def __init__(self, initial_tiles=DEFAULT_TILES, tile_size=8, desired_tile_count=64):
         self.desired_tile_count = desired_tile_count
         self.initial_tiles = initial_tiles
-        self.threshold_for_hamming = 16
+        self.threshold_for_hamming = 20
         self.threshold_max_epochs = 1000
         self.threshold_max_generations_per_epoch = 10000
         self.threshold_max_add_pixel_iterations_per_generation = 10000

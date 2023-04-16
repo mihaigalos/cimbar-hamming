@@ -1,8 +1,8 @@
 @default:
     just --list --unsorted
 
-@run:
-    python3 src/main.py
+@run +args="":
+    python3 src/main.py {{ args}}
 
 @test:
     python -m unittest discover src/

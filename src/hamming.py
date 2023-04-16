@@ -21,20 +21,21 @@ class Hamming:
     def compute_distances(self):
         hamming_distances = {}
         i = 0
-        for tile1 in self.tiles:
-            one_distance = {}
-            j = 0
-            for tile2 in self.tiles:
-                if i != j:
-                    one_distance[j] = self._diff_tile(tile1, tile2)
-                    if self.max_hamming_distance < one_distance[j]:
-                        self.max_hamming_distance = one_distance[j]
-                    if self.min_hamming_distance > one_distance[j]:
-                        self.min_hamming_distance = one_distance[j]
-                j += 1
+        if len(self.tiles) > 1:
+            for tile1 in self.tiles:
+                one_distance = {}
+                j = 0
+                for tile2 in self.tiles:
+                    if i != j:
+                        one_distance[j] = self._diff_tile(tile1, tile2)
+                        if self.max_hamming_distance < one_distance[j]:
+                            self.max_hamming_distance = one_distance[j]
+                        if self.min_hamming_distance > one_distance[j]:
+                            self.min_hamming_distance = one_distance[j]
+                    j += 1
 
-            hamming_distances[i] = one_distance
-            i += 1
+                hamming_distances[i] = one_distance
+                i += 1
         return hamming_distances
 
     def to_json(self):

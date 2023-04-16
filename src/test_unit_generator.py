@@ -136,6 +136,11 @@ class TestGenerator(unittest.TestCase):
 
         self.assertTrue(actual, expected)
 
+    @unittest.skip
+    def test_debug(self):
+        g = Generator(initial_tiles=[])
+        g.run()
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -7,7 +7,7 @@ from writer import Writer
 
 
 class Generator:
-    def __init__(self, tile_size=8, initial_tiles=DEFAULT_TILES, desired_tile_count=64):
+    def __init__(self, initial_tiles=DEFAULT_TILES, tile_size=8, desired_tile_count=64):
         self.desired_tile_count = desired_tile_count
         self.initial_tiles = initial_tiles
         self.threshold_for_hamming = 16

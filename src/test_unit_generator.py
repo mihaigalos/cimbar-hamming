@@ -19,129 +19,30 @@ class TestGenerator(unittest.TestCase):
 
         self.assertTrue(expected == actual)
 
-    def test_validate_pixel_works_whenEmpty(self):
+    def test_insert_4pixels_works_whenEmpty(self):
         generator = Generator()
         tile = generator._Generator__new_empty_tile()
         rows = tile.split("\n")
 
-        can_insert = generator._Generator__validate_pixel(rows, 2, 2)
+        can_insert = generator._Generator__insert_4pixels(rows, 2, 2)
 
         self.assertTrue(can_insert)
 
-    def test_validate_pixel_works_whenRight(self):
+    def test_insert_4pixels_works_whenRight(self):
         tile = """⭕⭕⭕⭕⭕⭕⭕⭕
-🔵🔵🔵⭕⭕⭕⭕⭕
-🔵🔵⭕⭕⭕⭕⭕⭕
-🔵🔵🔵⭕⭕⭕⭕⭕
 ⭕⭕⭕⭕⭕⭕⭕⭕
 ⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕"""
-
-        generator = Generator()
-        rows = tile.split("\n")
-
-        can_insert = generator._Generator__validate_pixel(rows, 2, 2)
-
-        self.assertTrue(can_insert)
-
-    def test_validate_pixel_works_whenLeft(self):
-        tile = """⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕🔵🔵🔵⭕⭕⭕
-⭕⭕⭕🔵🔵⭕⭕⭕
-⭕⭕🔵🔵🔵⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕"""
-
-        generator = Generator()
-        rows = tile.split("\n")
-
-        can_insert = generator._Generator__validate_pixel(rows, 2, 2)
-
-        self.assertTrue(can_insert)
-
-    def test_validate_pixel_works_whenDown(self):
-        tile = """⭕⭕⭕⭕⭕⭕⭕⭕
-⭕🔵🔵🔵⭕⭕⭕⭕
-⭕🔵⭕🔵⭕⭕⭕⭕
 ⭕⭕⭕⭕⭕⭕⭕⭕
 ⭕⭕⭕⭕⭕⭕⭕⭕
 ⭕⭕⭕⭕⭕⭕⭕⭕
 ⭕⭕⭕⭕⭕⭕⭕⭕
 ⭕⭕⭕⭕⭕⭕⭕⭕"""
 
-        generator = Generator()
-        rows = tile.split("\n")
-
-        can_insert = generator._Generator__validate_pixel(rows, 2, 2)
-
-        self.assertTrue(can_insert)
-
-    def test_validate_pixel_works_whenUp(self):
-        tile = """⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕🔵⭕🔵⭕⭕⭕⭕
-⭕🔵🔵🔵⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕"""
-
-        generator = Generator()
-        rows = tile.split("\n")
-
-        can_insert = generator._Generator__validate_pixel(rows, 2, 2)
-
-        self.assertTrue(can_insert)
-
-    def test_validate_pixel_not_works_whenBitSet(self):
-        tile = """⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕🔵🔵🔵⭕⭕⭕⭕
-⭕🔵🔵🔵⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕"""
-
-        generator = Generator()
-        rows = tile.split("\n")
-
-        can_insert = generator._Generator__validate_pixel(rows, 2, 2)
-
-        self.assertFalse(can_insert)
-
-    def test_create_potential_tile_works_whenRight(self):
-        tile = """⭕⭕⭕⭕⭕⭕⭕⭕
-🔵🔵🔵⭕⭕⭕⭕⭕
-🔵🔵⭕⭕⭕⭕⭕⭕
-🔵🔵🔵⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕"""
         expected = """⭕⭕⭕⭕⭕⭕⭕⭕
-🔵🔵🔵⭕⭕⭕⭕⭕
-🔵🔵🔵⭕⭕⭕⭕⭕
-🔵🔵🔵⭕⭕⭕⭕⭕
 ⭕⭕⭕⭕⭕⭕⭕⭕
+⭕🔵🔵⭕⭕⭕⭕⭕
+⭕🔵🔵⭕⭕⭕⭕⭕
 ⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕"""
-        generator = Generator()
-
-        actual = generator._Generator__create_potential_tile(2, 2, tile)
-
-        self.assertTrue(actual, expected)
-
-    def test_validate_pixel_not_true_whenHoleInBits(self):
-        tile = """⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕🔵🔵🔵⭕⭕⭕⭕
-⭕🔵⭕🔵⭕⭕⭕⭕
-⭕🔵🔵🔵⭕⭕⭕⭕
 ⭕⭕⭕⭕⭕⭕⭕⭕
 ⭕⭕⭕⭕⭕⭕⭕⭕
 ⭕⭕⭕⭕⭕⭕⭕⭕"""
@@ -149,28 +50,9 @@ class TestGenerator(unittest.TestCase):
         generator = Generator()
         rows = tile.split("\n")
 
-        can_insert = generator._Generator__validate_pixel_not_hole(
-            rows, 2, 3)
+        can_insert = generator._Generator__insert_4pixels(rows, 2, 2)
 
-        self.assertFalse(can_insert)
-
-    def test_validate_pixel_not_true_whenHoleInBits_vertical(self):
-        tile = """⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕🔵⭕⭕⭕⭕⭕
-⭕🔵⭕🔵⭕⭕⭕⭕
-⭕⭕🔵⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕
-⭕⭕⭕⭕⭕⭕⭕⭕"""
-
-        generator = Generator()
-        rows = tile.split("\n")
-
-        can_insert = generator._Generator__validate_pixel_not_hole(
-            rows, 2, 3)
-
-        self.assertFalse(can_insert)
+        self.assertTrue(can_insert)
 
     @unittest.skip
     def test_debug(self):

@@ -48,8 +48,8 @@ class Generator:
         tile = self.__new_empty_tile()
         iteration = 0
         while self.__can_continue_generating_pixels(written_pixels, iteration):
-            new_pixel_x = random.randint(0, self.tile_size - 1)
-            new_pixel_y = random.randint(0, self.tile_size - 1)
+            new_pixel_x = random.randint(1, self.tile_size - 1)
+            new_pixel_y = random.randint(1, self.tile_size - 1)
 
             potential_tile = self.__create_potential_tile(
                 new_pixel_x, new_pixel_y, tile)
@@ -69,56 +69,68 @@ class Generator:
 
     def __create_potential_tile(self, new_pixel_x, new_pixel_y, old_tile):
         rows = old_tile.strip().split("\n")
-        if self.__validate_pixel(rows, new_pixel_x, new_pixel_y):
-            row = rows[new_pixel_y]
-            new_row = row[0:new_pixel_x] + "🔵"
-            if new_pixel_x + 1 < self.tile_size:
-                new_row += row[new_pixel_x+1:len(row)]
-            new_rows = rows[0:new_pixel_y] + \
-                [new_row]
-            if new_pixel_y + 1 < self.tile_size:
-                new_rows += rows[new_pixel_y+1:len(rows)]
+        (validated, new_rows) = self.__insert_4pixels(
+            rows, new_pixel_x, new_pixel_y)
+        # row = rows[new_pixel_y]
+        # new_row = row[0:new_pixel_x] + "🔵"
+        # if new_pixel_x + 1 < self.tile_size:
+        #     new_row += row[new_pixel_x+1:len(row)]
+        # new_rows = rows[0:new_pixel_y] + \
+        #     [new_row]
+        # if new_pixel_y + 1 < self.tile_size:
+        #     new_rows += rows[new_pixel_y+1:len(rows)]
 
-            if self.__validate_pixel_not_hole(rows.copy(), new_pixel_x, new_pixel_y):
-                result = "\n".join(new_rows).strip()+"\n"
-                return result
+        if validated:
+            result = "\n".join(new_rows).strip()+"\n"
+            return result
 
         return None
 
     """
     Coordinate system: X - Left to Right, Y: Top to Bottom
+    We're using 4 pixels here to assist in decoding and compensate for camera blur.
     """
 
-    def __validate_pixel(self, rows, new_pixel_x, new_pixel_y):
-        if self.__is_empty_tile(rows):
-            return True
+    def __insert_4pixels(self, rows, new_pixel_x, new_pixel_y):
 
-        if rows[new_pixel_y][new_pixel_x] == "⭕" and (
-            (new_pixel_x - 1 > 0 and rows[new_pixel_y][new_pixel_x - 1] == "🔵") or
-            (new_pixel_y - 1 > 0 and rows[new_pixel_y - 1][new_pixel_x] == "🔵") or
-            (new_pixel_x + 1 < self.tile_size and rows[new_pixel_y][new_pixel_x + 1] == "🔵") or
-            (new_pixel_y + 1 <
-             self.tile_size and rows[new_pixel_y + 1][new_pixel_x] == "🔵")
-        ):
-            return True
-        return False
+        if rows[new_pixel_y][new_pixel_x] == "⭕":
+            rows[new_pixel_y] = self.__mutate_string(
+                rows[new_pixel_y], new_pixel_x, "🔵")
+            added_pixels = 0
+            next_x = 0
+            next_y = 0
+            if new_pixel_x - 1 > 0 and rows[new_pixel_y][new_pixel_x - 1] == "⭕":
+                rows[new_pixel_y] = self.__mutate_string(
+                    rows[new_pixel_y], new_pixel_x-1, "🔵")
+                added_pixels += 1
+                next_x = -1
+            elif new_pixel_x + 1 < self.tile_size and rows[new_pixel_y][new_pixel_x + 1] == "⭕":
+                rows[new_pixel_y] = self.__mutate_string(
+                    rows[new_pixel_y], new_pixel_x+1, "🔵")
+                added_pixels += 1
+                next_x = +1
 
-    def __validate_pixel_not_hole(self, rows, new_pixel_x, new_pixel_y):
+            if new_pixel_y - 1 > 0 and rows[new_pixel_y - 1][new_pixel_x] == "⭕":
+                rows[new_pixel_y-1] = self.__mutate_string(
+                    rows[new_pixel_y-1], new_pixel_x, "🔵")
+                added_pixels += 1
+                next_y = -1
+            elif new_pixel_y + 1 < self.tile_size and rows[new_pixel_y + 1][new_pixel_x] == "⭕":
+                rows[new_pixel_y+1] = self.__mutate_string(
+                    rows[new_pixel_y+1], new_pixel_x, "🔵")
+                added_pixels += 1
+                next_y = +1
 
-        j = 1
-        for row in rows[1:-1]:
-            i = 1
-            for _ in row[1:-1]:
-                if rows[j][i] == "⭕" and (
-                        rows[j+1][i] == "🔵" and
-                        rows[j-1][i] == "🔵" and
-                        rows[j][i+1] == "🔵" and
-                        rows[j][i-1] == "🔵"
-                ):
-                    return False
-                i += 1
-            j += 1
-        return True
+            if added_pixels == 2:
+                rows[new_pixel_y+next_y] = self.__mutate_string(
+                    rows[new_pixel_y+next_y], new_pixel_x+next_x, "🔵")
+                return (True, rows)
+        return (False, rows)
+
+    def __mutate_string(self, input, pos, newchar):
+        l = list(input)
+        l[pos] = newchar
+        return "".join(l)
 
     def __is_empty_tile(self, rows):
         for row in rows:

@@ -7,14 +7,14 @@ from writer import Writer
 
 
 class Generator:
-    def __init__(self, initial_tiles=DEFAULT_TILES, tile_size=8, desired_tile_count=64):
+    def __init__(self, initial_tiles=DEFAULT_TILES, tile_size=5, desired_tile_count=16):
         self.desired_tile_count = desired_tile_count
         self.initial_tiles = initial_tiles
-        self.threshold_for_hamming = 20
+        self.threshold_for_hamming = 10
         self.threshold_max_epochs = 1000
         self.threshold_max_generations_per_epoch = 10000
         self.threshold_max_add_pixel_iterations_per_generation = 10000
-        self.threshold_min_written_pixels = 8
+        self.threshold_min_written_pixels = 7
         self.tile_index = len(initial_tiles) + 1
         self.tile_size = tile_size
         self.writer = Writer("results")
@@ -69,16 +69,8 @@ class Generator:
 
     def __create_potential_tile(self, new_pixel_x, new_pixel_y, old_tile):
         rows = old_tile.strip().split("\n")
-        (validated, new_rows) = self.__insert_4pixels(
+        (validated, new_rows) = self.__insert_pixels(
             rows, new_pixel_x, new_pixel_y)
-        # row = rows[new_pixel_y]
-        # new_row = row[0:new_pixel_x] + "🔵"
-        # if new_pixel_x + 1 < self.tile_size:
-        #     new_row += row[new_pixel_x+1:len(row)]
-        # new_rows = rows[0:new_pixel_y] + \
-        #     [new_row]
-        # if new_pixel_y + 1 < self.tile_size:
-        #     new_rows += rows[new_pixel_y+1:len(rows)]
 
         if validated:
             result = "\n".join(new_rows).strip()+"\n"
@@ -91,40 +83,22 @@ class Generator:
     We're using 4 pixels here to assist in decoding and compensate for camera blur.
     """
 
-    def __insert_4pixels(self, rows, new_pixel_x, new_pixel_y):
+    def __insert_pixels(self, rows, new_pixel_x, new_pixel_y):
 
-        if rows[new_pixel_y][new_pixel_x] == "⭕":
+        if self.__is_empty_tile(rows) or (
+                rows[new_pixel_y][new_pixel_x] == "⭕" and (
+                    (new_pixel_x - 1 > 0 and rows[new_pixel_y][new_pixel_x - 1] == "🔵") or
+                    (new_pixel_y - 1 > 0 and rows[new_pixel_y - 1][new_pixel_x] == "🔵") or
+                    (new_pixel_x + 1 < self.tile_size and rows[new_pixel_y][new_pixel_x + 1] == "🔵") or
+                    (new_pixel_y + 1 <
+                     self.tile_size and rows[new_pixel_y + 1][new_pixel_x] == "🔵")
+                )):
             rows[new_pixel_y] = self.__mutate_string(
                 rows[new_pixel_y], new_pixel_x, "🔵")
             added_pixels = 0
             next_x = 0
             next_y = 0
-            if new_pixel_x - 1 > 0 and rows[new_pixel_y][new_pixel_x - 1] == "⭕":
-                rows[new_pixel_y] = self.__mutate_string(
-                    rows[new_pixel_y], new_pixel_x-1, "🔵")
-                added_pixels += 1
-                next_x = -1
-            elif new_pixel_x + 1 < self.tile_size and rows[new_pixel_y][new_pixel_x + 1] == "⭕":
-                rows[new_pixel_y] = self.__mutate_string(
-                    rows[new_pixel_y], new_pixel_x+1, "🔵")
-                added_pixels += 1
-                next_x = +1
-
-            if new_pixel_y - 1 > 0 and rows[new_pixel_y - 1][new_pixel_x] == "⭕":
-                rows[new_pixel_y-1] = self.__mutate_string(
-                    rows[new_pixel_y-1], new_pixel_x, "🔵")
-                added_pixels += 1
-                next_y = -1
-            elif new_pixel_y + 1 < self.tile_size and rows[new_pixel_y + 1][new_pixel_x] == "⭕":
-                rows[new_pixel_y+1] = self.__mutate_string(
-                    rows[new_pixel_y+1], new_pixel_x, "🔵")
-                added_pixels += 1
-                next_y = +1
-
-            if added_pixels == 2:
-                rows[new_pixel_y+next_y] = self.__mutate_string(
-                    rows[new_pixel_y+next_y], new_pixel_x+next_x, "🔵")
-                return (True, rows)
+            return (True, rows)
         return (False, rows)
 
     def __mutate_string(self, input, pos, newchar):

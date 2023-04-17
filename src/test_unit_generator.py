@@ -24,7 +24,7 @@ class TestGenerator(unittest.TestCase):
         tile = generator._Generator__new_empty_tile()
         rows = tile.split("\n")
 
-        can_insert = generator._Generator__insert_4pixels(rows, 2, 2)
+        can_insert = generator._Generator__insert_pixels(rows, 2, 2)
 
         self.assertTrue(can_insert)
 
@@ -50,11 +50,11 @@ class TestGenerator(unittest.TestCase):
         generator = Generator()
         rows = tile.split("\n")
 
-        can_insert = generator._Generator__insert_4pixels(rows, 2, 2)
+        can_insert = generator._Generator__insert_pixels(rows, 2, 2)
 
         self.assertTrue(can_insert)
 
-    @unittest.skip
+    # @unittest.skip
     def test_debug(self):
         g = Generator(initial_tiles=[])
         g.run()
